@@ -1,47 +1,56 @@
 object ScalaProblems extends App {
+  // HELPERS
+  def title(s: String) = println(s"\n$s\n")
+
   def last(l: List[Int]): Int = l match {
     case x :: Nil => x
     case _ => last(l.tail)
   }
 
-  println("LAST")
-  println("Native -               " + (last(List(1, 1, 2, 3, 5, 8)) == 8))
-  println("Scala out of the box - " + (List(1, 1, 2, 3, 5, 8).last == 8))
+  val lastData = List(1, 1, 2, 3, 5, 8)
+  title("LAST")
+  println("Native -               " + (last(lastData) == 8))
+  println("Scala out of the box - " + (lastData.last == 8))
 
   def penultimate(l: List[Any]): Any = l match {
     case x :: tail if tail.length == 1 => x
     case _ => penultimate(l.tail)
   }
 
-  println("PENULTIMATE")
-  println("Native -               " + (penultimate(List(1, 1, 2, 3, 5, 8)) == 5))
-  println("Scala out of the box - " + (List(1, 1, 2, 3, 5, 8).reverse(1) == 5))
+  val penultimateData = List(1, 1, 2, 3, 5, 8)
+  title("PENULTIMATE")
+  println("Native -               " + (penultimate(penultimateData) == 5))
+  println("Scala out of the box - " + (penultimateData.reverse(1) == 5))
 
   def nth(n: Int, l: List[Any]): Any = n match {
     case 0 => l.head
     case _ => nth(n - 1, l.tail)
   }
 
-  println("NTH")
-  println("Native -               " + (nth(2, List(1, 1, 2, 3, 5, 8)) == 2))
-  println("Scala out of the box - " + (List(1, 1, 2, 3, 5, 8)(2) == 2))
+  val nthData = List(1, 1, 2, 3, 5, 8)
+  title("NTH")
+  println("Native -               " + (nth(2, nthData) == 2))
+  println("Scala out of the box - " + (nthData(2) == 2))
 
   def length(l: List[Any]): Int = l match {
     case Nil => 0
-    case x :: tail => 1 + length(tail)
+    case _ :: tail => 1 + length(tail)
   }
 
-  println("LENGTH")
-  println("Native -               " + (length(List(1, 1, 2, 3, 5, 8)) == 6))
-  println("Scala out of the box - " + (List(1, 1, 2, 3, 5, 8).length == 6))
+  val lengthData = List(1, 1, 2, 3, 5, 8)
+  title("LENGTH")
+  println("Native -               " + (length(lengthData) == 6))
+  println("Scala out of the box - " + (lengthData.length == 6))
 
   def reverse(l: List[Any]): List[Any] = l match {
     case Nil => Nil
     case x :: tail => reverse(tail) :+ x
   }
 
-  println("Native -               " + (reverse(List(1, 1, 2, 3, 5, 8)) == List(8, 5, 3, 2, 1, 1)))
-  println("Scala out of the box - " + (List(1, 1, 2, 3, 5, 8).reverse == List(8, 5, 3, 2, 1, 1)))
+  val reverseData = List(1, 1, 2, 3, 5, 8)
+  title("REVERSE")
+  println("Native -               " + (reverse(reverseData) == List(8, 5, 3, 2, 1, 1)))
+  println("Scala out of the box - " + (reverseData.reverse == List(8, 5, 3, 2, 1, 1)))
 
   def isPalindrome(l: List[Any]): Boolean = {
     def aa(ll: List[Any]): Boolean = ll match {
@@ -53,12 +62,16 @@ object ScalaProblems extends App {
     aa(l)
   }
 
-  println("PALINDROME")
-  println("Native -               " + (isPalindrome(List(1, 2, 3, 2, 1)) == true))
-  val palindromeList = List(1, 2, 3, 2, 1)
-  val firstHalf = palindromeList.take((palindromeList.length - 1) / 2)
-  val secondHalf = palindromeList.takeRight((palindromeList.length - 1) / 2)
-  println("Scala out of the box - " + (firstHalf == secondHalf.reverse))
+  def isPalindrome2(l: List[Any]): Boolean = {
+    val firstHalf = l.take((l.length - 1) / 2)
+    val secondHalf = l.takeRight((l.length - 1) / 2)
+    firstHalf == secondHalf.reverse
+  }
+
+  val palindromeData = List(1, 2, 3, 2, 1)
+  title("PALINDROME")
+  println("Native -               " + (isPalindrome(palindromeData) == true))
+  println("Scala out of the box - " + (isPalindrome2(palindromeData) == true))
 
   def flatten(l: List[Any]): List[Any] = l match {
     case(x:List[Any])::tail => flatten(x) ::: flatten(tail)
@@ -66,9 +79,10 @@ object ScalaProblems extends App {
     case _ => Nil
   }
 
-  println("FLATTEN")
-  println("Native -               " + (flatten(List(List(1, 1), 2, List(3, List(5, 8)))) == List(1, 1, 2, 3, 5, 8)))
-  println("Scala out of the box - same as native")
+  val flattenData = List(List(1, 1), 2, List(3, List(5, 8)))
+  title("FLATTEN")
+  println("Native -               " + (flatten(flattenData) == List(1, 1, 2, 3, 5, 8)))
+  println("Scala out of the box - same as native implementation")
 
   def compress(prev: Any = None, l: List[Any]): List[Any] = l match {
     case (x:Any)::tail if prev == x => compress(x, tail)
@@ -76,9 +90,12 @@ object ScalaProblems extends App {
     case _ => Nil
   }
 
-  println("COMPRESS")
-  println("Native -               " + (compress(l = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) == List('a', 'b', 'c', 'a', 'd', 'e')))
-  println("Scala out of the box - " + (List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e').foldLeft(List[Char]())((a, b) => if (a != Nil && a.last == b) a else a :+ b) == List('a', 'b', 'c', 'a', 'd', 'e')))
+  def compress2(l: List[Char]) = l.foldLeft(List[Char]())((a, b) => if (a != Nil && a.last == b) a else a :+ b)
+
+  val compressData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  title("COMPRESS")
+  println("Native -               " + (compress(l = compressData) == List('a', 'b', 'c', 'a', 'd', 'e')))
+  println("Scala out of the box - " + (compress2(compressData) == List('a', 'b', 'c', 'a', 'd', 'e')))
 
   def packHelper(prevItems: List[Any], ll: List[Any]): (List[Any], List[Any]) = ll match {
     case x :: tail if prevItems == Nil || x == prevItems.last => packHelper(x :: prevItems, tail)
@@ -101,9 +118,11 @@ object ScalaProblems extends App {
     }
   }
 
-  println("PACK")
-  println("Native -               " + (pack(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) == List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e'))))
-  println("Scala out of the box - " + (pack2(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) == List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e'))))
+  val packData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  val packReturnData = List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e'))
+  title("PACK")
+  println("Native -               " + (pack(packData) == packReturnData))
+  println("Scala out of the box - " + (pack2(packData) == packReturnData))
 
   def encode(l: List[Any]): List[(Int, Any)] = {
     def recourse(ls: List[List[Any]]): List[(Int, Any)] = ls match {
@@ -115,7 +134,9 @@ object ScalaProblems extends App {
 
   def encode2(l: List[Any]): List[(Int, Any)] = pack2(l).map(ls => (ls.length, ls.head))
 
-  println("ENCODE")
-  println("Native -               " + (encode(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) == List((4,'a'), (1,'b'), (2,'c'), (2,'a'), (1,'d'), (4,'e'))))
-  println("Scala out of the box - " + (encode2(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')) == List((4,'a'), (1,'b'), (2,'c'), (2,'a'), (1,'d'), (4,'e'))))
+  val encodeData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  val encodeReturnData = List((4,'a'), (1,'b'), (2,'c'), (2,'a'), (1,'d'), (4,'e'))
+  title("ENCODE")
+  println("Native -               " + (encode(encodeData) == encodeReturnData))
+  println("Scala out of the box - " + (encode2(encodeData) == encodeReturnData))
 }
