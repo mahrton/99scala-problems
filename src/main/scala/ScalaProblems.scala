@@ -164,4 +164,22 @@ object ScalaProblems extends App {
   title("ENCODEMODIFIED")
   println("Native -               " + (encodeModified(encodeModifiedData) == encodeModifiedReturnData))
   println("Scala out of the box - " + (encodeModified2(encodeModifiedData) == encodeModifiedReturnData))
+
+  def decodeHelper(a: Int, b: Char): List[Char] = a match {
+    case 0 => Nil
+    case _ => b :: decodeHelper(a - 1, b)
+  }
+
+  def decode(l : List[(Int, Char)]): List[Char] = l match {
+    case head :: tail => decodeHelper(head._1, head._2) ::: decode(tail)
+    case _ => Nil
+  }
+
+  def decode2(l : List[(Int, Char)]): List[Char] = l.map(t => List().padTo(t._1, t._2)).flatten
+
+  val decodeData = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
+  val decodeReturnData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  title("DECODE")
+  println("Native -               " + (decode(decodeData) == decodeReturnData))
+  println("Scala out of the box - " + (decode2(decodeData) == decodeReturnData))
 }
