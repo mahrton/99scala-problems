@@ -203,4 +203,17 @@ object ScalaProblems extends App {
   title("ENCODEDIRECT")
   println("Native -               " + (encodeDirect(encodeDirectData) == encodeDirectReturnData))
   println("Scala out of the box - " + (encodeDirect2(encodeDirectData) == encodeDirectReturnData))
+
+  def duplicate(l: List[Char]): List[Char] = l match {
+    case x :: tail => x :: x :: duplicate(tail)
+    case _ => Nil
+  }
+
+  def duplicate2(l: List[Char]): List[Char] = l.flatMap(x => List(x, x))
+
+  val duplicateData = List('a', 'b', 'c', 'c', 'd')
+  val duplicateReturnData = List('a', 'a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd')
+  title("DUPLICATE")
+  println("Native -               " + (duplicate(duplicateData) == duplicateReturnData))
+  println("Scala out of the box - " + (duplicate2(duplicateData) == duplicateReturnData))
 }
