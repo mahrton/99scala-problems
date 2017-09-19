@@ -175,11 +175,32 @@ object ScalaProblems extends App {
     case _ => Nil
   }
 
-  def decode2(l : List[(Int, Char)]): List[Char] = l.map(t => List().padTo(t._1, t._2)).flatten
+  def decode2(l : List[(Int, Char)]): List[Char] = l.flatMap(t => List().padTo(t._1, t._2))
 
   val decodeData = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
   val decodeReturnData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   title("DECODE")
   println("Native -               " + (decode(decodeData) == decodeReturnData))
   println("Scala out of the box - " + (decode2(decodeData) == decodeReturnData))
+
+  def encodeDirect(l: List[Char], last: List[Char] = Nil): List[(Int, Char)] = l match {
+    case Nil => (last.length, last.head) :: Nil
+    case x :: tail if last == Nil || x == last.head => encodeDirect(tail, x :: last)
+    case x :: tail => (last.length, last.head) :: encodeDirect(tail, List(x))
+  }
+
+  def encodeDirect2(l: List[Char]): List[(Int, Char)] = {
+    if(l.isEmpty) {
+      Nil
+    } else {
+      val ll = l.takeWhile(c => c == l.head)
+      (ll.length, ll.head) :: encodeDirect2(l.drop(ll.length))
+    }
+  }
+
+  val encodeDirectData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  val encodeDirectReturnData = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
+  title("ENCODEDIRECT")
+  println("Native -               " + (encodeDirect(encodeDirectData) == encodeDirectReturnData))
+  println("Scala out of the box - " + (encodeDirect2(encodeDirectData) == encodeDirectReturnData))
 }
