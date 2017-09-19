@@ -139,4 +139,29 @@ object ScalaProblems extends App {
   title("ENCODE")
   println("Native -               " + (encode(encodeData) == encodeReturnData))
   println("Scala out of the box - " + (encode2(encodeData) == encodeReturnData))
+
+  def encodeModified(l: List[Any]): List[Any] = {
+    def recourse(ls: List[List[Any]]): List[Any] = ls match {
+      case x :: tail if x.length == 1 => x.head :: recourse(tail)
+      case x :: tail => (x.length, x.head) :: recourse(tail)
+      case _ => Nil
+    }
+    recourse(pack(l))
+  }
+
+  def encodeModified2(l: List[Char]): List[Any] = {
+    pack2(l).map { entry =>
+      if(entry.length == 1) {
+        entry.head
+      } else {
+        (entry.length, entry.head)
+      }
+    }.toList
+  }
+
+  val encodeModifiedData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+  val encodeModifiedReturnData = List((4,'a'), 'b', (2,'c'), (2,'a'), 'd', (4,'e'))
+  title("ENCODEMODIFIED")
+  println("Native -               " + (encodeModified(encodeModifiedData) == encodeModifiedReturnData))
+  println("Scala out of the box - " + (encodeModified2(encodeModifiedData) == encodeModifiedReturnData))
 }
