@@ -1,4 +1,4 @@
-object ScalaProblems extends App {
+object Lists extends App {
   // HELPERS
   def title(s: String) = println(s"\n$s\n")
 
@@ -206,7 +206,7 @@ object ScalaProblems extends App {
 
   def duplicate(l: List[Char]): List[Char] = l match {
     case x :: tail => x :: x :: duplicate(tail)
-    case _ => Nil
+    case Nil => Nil
   }
 
   def duplicate2(l: List[Char]): List[Char] = l.flatMap(x => List(x, x))
@@ -216,4 +216,17 @@ object ScalaProblems extends App {
   title("DUPLICATE")
   println("Native -               " + (duplicate(duplicateData) == duplicateReturnData))
   println("Scala out of the box - " + (duplicate2(duplicateData) == duplicateReturnData))
+
+  def duplicateN(num: Int, l: List[Char]): List[Char] = l match {
+    case x :: tail => (for( i <- 0 until num ) yield x).toList ::: duplicateN(num, tail)
+    case Nil => Nil
+  }
+
+  def duplicateN2(num: Int, l: List[Char]): List[Char] = l.flatMap(x => List().padTo(num, x))
+
+  val duplicateNData = List('a', 'b', 'c', 'c', 'd')
+  val duplicateNReturnData = List('a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'd', 'd', 'd')
+  title("DUPLICATEN")
+  println("Native -               " + (duplicateN(3, duplicateNData) == duplicateNReturnData))
+  println("Scala out of the box - " + (duplicateN2(3, duplicateNData) == duplicateNReturnData))
 }
