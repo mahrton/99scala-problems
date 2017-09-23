@@ -230,9 +230,6 @@ object Lists extends App {
   println("Native -               " + (duplicateN(3, duplicateNData) == duplicateNReturnData))
   println("Scala out of the box - " + (duplicateN2(3, duplicateNData) == duplicateNReturnData))
 
-
-
-
   def drop(num: Int, l: List[Char], counter: Int = 0): List[Char] = l match {
     case x :: tail if counter + 1 == num => drop(num, tail, 0)
     case x :: tail => x :: drop(num, tail, counter + 1)
@@ -246,4 +243,18 @@ object Lists extends App {
   title("DROP")
   println("Native -               " + (drop(3, dropData) == dropReturnData))
   println("Scala out of the box - " + (drop2(3, dropData) == dropReturnData))
+
+  def split(num: Int, l: List[Char], temp: List[Char] = Nil): (List[Char], List[Char]) = l match {
+    case _ if num == 0 => (temp, l)
+    case x :: tail => split(num - 1, tail, temp :+ x)
+     case Nil => (temp, l)
+  }
+
+  def split2(num: Int, l: List[Char]): (List[Char], List[Char]) = l.splitAt(num)
+
+  val splitData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
+  val splitReturnData = (List('a', 'b', 'c'), List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k'))
+  title("SPLIT")
+  println("Native -               " + (split(3, splitData) == splitReturnData))
+  println("Scala out of the box - " + (split2(3, splitData) == splitReturnData))
 }
