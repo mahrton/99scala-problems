@@ -257,4 +257,20 @@ object Lists extends App {
   title("SPLIT")
   println("Native -               " + (split(3, splitData) == splitReturnData))
   println("Scala out of the box - " + (split2(3, splitData) == splitReturnData))
+
+
+  def slice(begin: Int, end: Int, l: List[Char], counter: Int = 0): List[Char] = l match {
+    case x :: tail if counter >= begin && counter < end => x :: slice(begin, end, tail, counter + 1)
+    case _ if counter + 1 > end => Nil
+    case _ :: tail => slice(begin, end, tail, counter + 1)
+    case Nil => Nil
+  }
+
+  def slice2(begin: Int, end: Int, l: List[Char]): List[Char] = l.slice(begin, end)
+
+  val sliceData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
+  val sliceReturnData = List('d', 'e', 'f', 'g')
+  title("SLICE")
+  println("Native -               " + (slice(3, 7, sliceData) == sliceReturnData))
+  println("Scala out of the box - " + (slice2(3, 7, sliceData) == sliceReturnData))
 }
