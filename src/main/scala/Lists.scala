@@ -258,7 +258,6 @@ object Lists extends App {
   println("Native -               " + (split(3, splitData) == splitReturnData))
   println("Scala out of the box - " + (split2(3, splitData) == splitReturnData))
 
-
   def slice(begin: Int, end: Int, l: List[Char], counter: Int = 0): List[Char] = l match {
     case x :: tail if counter >= begin && counter < end => x :: slice(begin, end, tail, counter + 1)
     case _ if counter + 1 > end => Nil
@@ -273,4 +272,24 @@ object Lists extends App {
   title("SLICE")
   println("Native -               " + (slice(3, 7, sliceData) == sliceReturnData))
   println("Scala out of the box - " + (slice2(3, 7, sliceData) == sliceReturnData))
+
+
+  def rotate(shift: Int, l: List[Char]): List[Char] = shift match {
+    case x if x > 0 => rotate(shift - 1, l.tail :+ l.head)
+    case x if x < 0 => rotate(shift + 1, l.last :: l.init)
+    case 0 => l
+  }
+
+  def rotate2(shift: Int, l: List[Char]): List[Char] = shift match {
+    case x if x < 0 => l.takeRight(Math.abs(x)) ::: l.dropRight(Math.abs(x))
+    case x if x > 0 => l.drop(x) ::: l.take(x)
+    case 0 => l
+  }
+
+  val rotateData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
+  val rotateReturnData1 = List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'a', 'b', 'c')
+  val rotateReturnData2 = List('j', 'k', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')
+  title("ROTATE")
+  println("Native -               " + ((rotate(3, rotateData) == rotateReturnData1 && (rotate(-2, rotateData) == rotateReturnData2))))
+  println("Scala out of the box - " + ((rotate2(3, rotateData) == rotateReturnData1) && (rotate2(-2, rotateData) == rotateReturnData2)))
 }
