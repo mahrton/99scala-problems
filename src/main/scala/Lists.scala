@@ -292,4 +292,27 @@ object Lists extends App {
   title("ROTATE")
   println("Native -               " + ((rotate(3, rotateData) == rotateReturnData1 && (rotate(-2, rotateData) == rotateReturnData2))))
   println("Scala out of the box - " + ((rotate2(3, rotateData) == rotateReturnData1) && (rotate2(-2, rotateData) == rotateReturnData2)))
+
+
+  def removeAt(at: Int, l: List[Char]): Option[(List[Char], Char)] = {
+    def rec(at: Int, list: List[Char]): List[Char] = list match {
+      case Nil => Nil
+      case _ :: tail if at == 0 => rec(at - 1, tail)
+      case x :: tail => x :: rec(at - 1, tail)
+    }
+    if(at >= 0 && at < l.length - 1) Some((rec(at, l), l(at)))
+    else None
+  }
+
+  def removeAt2(at: Int, l: List[Char]): Option[(List[Char], Char)] = {
+    if(at >= 0 && at < l.length - 1) Some((l.take(at) ++ l.drop(at + 1), l(at)))
+    else None
+  }
+
+  val removeAtData = List('a', 'b', 'c', 'd')
+  val removeAtReturnData = (List('a', 'c', 'd'), 'b')
+  title("REMOVE AT")
+  println(removeAt(1, removeAtData))
+  println("Native -               " + (removeAt(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
+  println("Scala out of the box - " + (removeAt2(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
 }
