@@ -312,7 +312,31 @@ object Lists extends App {
   val removeAtData = List('a', 'b', 'c', 'd')
   val removeAtReturnData = (List('a', 'c', 'd'), 'b')
   title("REMOVE AT")
-  println(removeAt(1, removeAtData))
   println("Native -               " + (removeAt(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
   println("Scala out of the box - " + (removeAt2(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
+
+
+  def insertAt(c: Char, at: Int, list: List[Char]): List[Char] = {
+    def rec(aat: Int, ll: List[Char]): List[Char] = ll match {
+      case Nil => Nil
+      case x :: tail if aat == 0 => c :: x :: rec(aat - 1, tail)
+      case x :: tail => x :: rec(aat - 1, tail)
+    }
+    if(at >= 0 && at < list.length) {
+      rec(at, list)
+    } else list
+  }
+
+  def insertAt2(c: Char, at: Int, l: List[Char]): List[Char] = {
+    if(at >= 0 && at < l.length) {
+      val (a, b) = l.splitAt(at)
+      (a :+ c) ::: b
+    } else l
+  }
+
+  val insertAtData = List('a', 'b', 'c', 'd')
+  val insertAtReturnData = (List('a', 'c', 'd'), 'b')
+  title("INSERT AT")
+  println("Native -               " + (insertAt('n', 1, insertAtData) == List('a', 'n', 'b', 'c', 'd')))
+  println("Scala out of the box - " + (insertAt2('n', 1, removeAtData) == List('a', 'n', 'b', 'c', 'd')))
 }
