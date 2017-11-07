@@ -342,4 +342,18 @@ object Lists extends App {
   native(insertAt('n', 1, insertAtData) == List('a', 'n', 'b', 'c', 'd'))
   scala(insertAt2('n', 1, removeAtData) == List('a', 'n', 'b', 'c', 'd'))
 
+
+  def range(x: Int, y: Int): List[Int] = (x, y) match {
+    case (xx, yy) if xx == yy => xx :: Nil
+    case (xx, yy) => xx :: range(xx + 1, yy)
+  }
+
+  def range2(x: Int, y: Int): List[Int] = (x to y).toList
+
+  val rangeReturnData = List(4, 5, 6, 7, 8, 9)
+  title("RANGE")
+  println(range(4, 9))
+  native(range(4, 9) == rangeReturnData)
+  println(range2(4, 9))
+  scala(range2(4, 9) == rangeReturnData)
 }
