@@ -1,6 +1,8 @@
 object Lists extends App {
   // HELPERS
   def title(s: String) = println(s"\n$s\n")
+  def native(b: Boolean) = println("Native -               " + b)
+  def scala(b: Boolean) = println("Scala out of the box - " + b)
 
   def last(l: List[Int]): Int = l match {
     case x :: Nil => x
@@ -9,8 +11,8 @@ object Lists extends App {
 
   val lastData = List(1, 1, 2, 3, 5, 8)
   title("LAST")
-  println("Native -               " + (last(lastData) == 8))
-  println("Scala out of the box - " + (lastData.last == 8))
+  native(last(lastData) == 8)
+  scala(lastData.last == 8)
 
   def penultimate(l: List[Any]): Any = l match {
     case x :: tail if tail.length == 1 => x
@@ -19,8 +21,8 @@ object Lists extends App {
 
   val penultimateData = List(1, 1, 2, 3, 5, 8)
   title("PENULTIMATE")
-  println("Native -               " + (penultimate(penultimateData) == 5))
-  println("Scala out of the box - " + (penultimateData.reverse(1) == 5))
+  native(penultimate(penultimateData) == 5)
+  scala(penultimateData.reverse(1) == 5)
 
   def nth(n: Int, l: List[Any]): Any = n match {
     case 0 => l.head
@@ -29,8 +31,8 @@ object Lists extends App {
 
   val nthData = List(1, 1, 2, 3, 5, 8)
   title("NTH")
-  println("Native -               " + (nth(2, nthData) == 2))
-  println("Scala out of the box - " + (nthData(2) == 2))
+  native(nth(2, nthData) == 2)
+  scala(nthData(2) == 2)
 
   def length(l: List[Any]): Int = l match {
     case Nil => 0
@@ -39,8 +41,8 @@ object Lists extends App {
 
   val lengthData = List(1, 1, 2, 3, 5, 8)
   title("LENGTH")
-  println("Native -               " + (length(lengthData) == 6))
-  println("Scala out of the box - " + (lengthData.length == 6))
+  native(length(lengthData) == 6)
+  scala(lengthData.length == 6)
 
   def reverse(l: List[Any]): List[Any] = l match {
     case Nil => Nil
@@ -49,8 +51,8 @@ object Lists extends App {
 
   val reverseData = List(1, 1, 2, 3, 5, 8)
   title("REVERSE")
-  println("Native -               " + (reverse(reverseData) == List(8, 5, 3, 2, 1, 1)))
-  println("Scala out of the box - " + (reverseData.reverse == List(8, 5, 3, 2, 1, 1)))
+  native(reverse(reverseData) == List(8, 5, 3, 2, 1, 1))
+  scala(reverseData.reverse == List(8, 5, 3, 2, 1, 1))
 
   def isPalindrome(l: List[Any]): Boolean = {
     def aa(ll: List[Any]): Boolean = ll match {
@@ -70,8 +72,8 @@ object Lists extends App {
 
   val palindromeData = List(1, 2, 3, 2, 1)
   title("PALINDROME")
-  println("Native -               " + (isPalindrome(palindromeData) == true))
-  println("Scala out of the box - " + (isPalindrome2(palindromeData) == true))
+  native(isPalindrome(palindromeData))
+  scala(isPalindrome2(palindromeData))
 
   def flatten(l: List[Any]): List[Any] = l match {
     case(x:List[Any])::tail => flatten(x) ::: flatten(tail)
@@ -81,7 +83,7 @@ object Lists extends App {
 
   val flattenData = List(List(1, 1), 2, List(3, List(5, 8)))
   title("FLATTEN")
-  println("Native -               " + (flatten(flattenData) == List(1, 1, 2, 3, 5, 8)))
+  native(flatten(flattenData) == List(1, 1, 2, 3, 5, 8))
   println("Scala out of the box - same as native implementation")
 
   def compress(prev: Any = None, l: List[Any]): List[Any] = l match {
@@ -94,8 +96,8 @@ object Lists extends App {
 
   val compressData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   title("COMPRESS")
-  println("Native -               " + (compress(l = compressData) == List('a', 'b', 'c', 'a', 'd', 'e')))
-  println("Scala out of the box - " + (compress2(compressData) == List('a', 'b', 'c', 'a', 'd', 'e')))
+  native(compress(l = compressData) == List('a', 'b', 'c', 'a', 'd', 'e'))
+  scala(compress2(compressData) == List('a', 'b', 'c', 'a', 'd', 'e'))
 
   def packHelper(prevItems: List[Any], ll: List[Any]): (List[Any], List[Any]) = ll match {
     case x :: tail if prevItems == Nil || x == prevItems.last => packHelper(x :: prevItems, tail)
@@ -121,8 +123,8 @@ object Lists extends App {
   val packData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   val packReturnData = List(List('a', 'a', 'a', 'a'), List('b'), List('c', 'c'), List('a', 'a'), List('d'), List('e', 'e', 'e', 'e'))
   title("PACK")
-  println("Native -               " + (pack(packData) == packReturnData))
-  println("Scala out of the box - " + (pack2(packData) == packReturnData))
+  native(pack(packData) == packReturnData)
+  scala(pack2(packData) == packReturnData)
 
   def encode(l: List[Any]): List[(Int, Any)] = {
     def recourse(ls: List[List[Any]]): List[(Int, Any)] = ls match {
@@ -137,8 +139,8 @@ object Lists extends App {
   val encodeData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   val encodeReturnData = List((4,'a'), (1,'b'), (2,'c'), (2,'a'), (1,'d'), (4,'e'))
   title("ENCODE")
-  println("Native -               " + (encode(encodeData) == encodeReturnData))
-  println("Scala out of the box - " + (encode2(encodeData) == encodeReturnData))
+  native(encode(encodeData) == encodeReturnData)
+  scala(encode2(encodeData) == encodeReturnData)
 
   def encodeModified(l: List[Any]): List[Any] = {
     def recourse(ls: List[List[Any]]): List[Any] = ls match {
@@ -162,8 +164,8 @@ object Lists extends App {
   val encodeModifiedData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   val encodeModifiedReturnData = List((4,'a'), 'b', (2,'c'), (2,'a'), 'd', (4,'e'))
   title("ENCODEMODIFIED")
-  println("Native -               " + (encodeModified(encodeModifiedData) == encodeModifiedReturnData))
-  println("Scala out of the box - " + (encodeModified2(encodeModifiedData) == encodeModifiedReturnData))
+  native(encodeModified(encodeModifiedData) == encodeModifiedReturnData)
+  scala(encodeModified2(encodeModifiedData) == encodeModifiedReturnData)
 
   def decodeHelper(a: Int, b: Char): List[Char] = a match {
     case 0 => Nil
@@ -180,8 +182,8 @@ object Lists extends App {
   val decodeData = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
   val decodeReturnData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   title("DECODE")
-  println("Native -               " + (decode(decodeData) == decodeReturnData))
-  println("Scala out of the box - " + (decode2(decodeData) == decodeReturnData))
+  native(decode(decodeData) == decodeReturnData)
+  scala(decode2(decodeData) == decodeReturnData)
 
   def encodeDirect(l: List[Char], last: List[Char] = Nil): List[(Int, Char)] = l match {
     case Nil => (last.length, last.head) :: Nil
@@ -201,8 +203,8 @@ object Lists extends App {
   val encodeDirectData = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
   val encodeDirectReturnData = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
   title("ENCODEDIRECT")
-  println("Native -               " + (encodeDirect(encodeDirectData) == encodeDirectReturnData))
-  println("Scala out of the box - " + (encodeDirect2(encodeDirectData) == encodeDirectReturnData))
+  native(encodeDirect(encodeDirectData) == encodeDirectReturnData)
+  scala(encodeDirect2(encodeDirectData) == encodeDirectReturnData)
 
   def duplicate(l: List[Char]): List[Char] = l match {
     case x :: tail => x :: x :: duplicate(tail)
@@ -214,8 +216,8 @@ object Lists extends App {
   val duplicateData = List('a', 'b', 'c', 'c', 'd')
   val duplicateReturnData = List('a', 'a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd')
   title("DUPLICATE")
-  println("Native -               " + (duplicate(duplicateData) == duplicateReturnData))
-  println("Scala out of the box - " + (duplicate2(duplicateData) == duplicateReturnData))
+  native(duplicate(duplicateData) == duplicateReturnData)
+  scala(duplicate2(duplicateData) == duplicateReturnData)
 
   def duplicateN(num: Int, l: List[Char]): List[Char] = l match {
     case x :: tail => (for( i <- 0 until num ) yield x).toList ::: duplicateN(num, tail)
@@ -227,8 +229,8 @@ object Lists extends App {
   val duplicateNData = List('a', 'b', 'c', 'c', 'd')
   val duplicateNReturnData = List('a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'd', 'd', 'd')
   title("DUPLICATEN")
-  println("Native -               " + (duplicateN(3, duplicateNData) == duplicateNReturnData))
-  println("Scala out of the box - " + (duplicateN2(3, duplicateNData) == duplicateNReturnData))
+  native(duplicateN(3, duplicateNData) == duplicateNReturnData)
+  scala(duplicateN2(3, duplicateNData) == duplicateNReturnData)
 
   def drop(num: Int, l: List[Char], counter: Int = 0): List[Char] = l match {
     case x :: tail if counter + 1 == num => drop(num, tail, 0)
@@ -241,8 +243,8 @@ object Lists extends App {
   val dropData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
   val dropReturnData = List('a', 'b', 'd', 'e', 'g', 'h', 'j', 'k')
   title("DROP")
-  println("Native -               " + (drop(3, dropData) == dropReturnData))
-  println("Scala out of the box - " + (drop2(3, dropData) == dropReturnData))
+  native(drop(3, dropData) == dropReturnData)
+  scala(drop2(3, dropData) == dropReturnData)
 
   def split(num: Int, l: List[Char], temp: List[Char] = Nil): (List[Char], List[Char]) = l match {
     case _ if num == 0 => (temp, l)
@@ -255,8 +257,8 @@ object Lists extends App {
   val splitData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
   val splitReturnData = (List('a', 'b', 'c'), List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k'))
   title("SPLIT")
-  println("Native -               " + (split(3, splitData) == splitReturnData))
-  println("Scala out of the box - " + (split2(3, splitData) == splitReturnData))
+  native(split(3, splitData) == splitReturnData)
+  scala(split2(3, splitData) == splitReturnData)
 
   def slice(begin: Int, end: Int, l: List[Char], counter: Int = 0): List[Char] = l match {
     case x :: tail if counter >= begin && counter < end => x :: slice(begin, end, tail, counter + 1)
@@ -270,8 +272,8 @@ object Lists extends App {
   val sliceData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
   val sliceReturnData = List('d', 'e', 'f', 'g')
   title("SLICE")
-  println("Native -               " + (slice(3, 7, sliceData) == sliceReturnData))
-  println("Scala out of the box - " + (slice2(3, 7, sliceData) == sliceReturnData))
+  native(slice(3, 7, sliceData) == sliceReturnData)
+  scala(slice2(3, 7, sliceData) == sliceReturnData)
 
 
   def rotate(shift: Int, l: List[Char]): List[Char] = shift match {
@@ -290,8 +292,8 @@ object Lists extends App {
   val rotateReturnData1 = List('d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'a', 'b', 'c')
   val rotateReturnData2 = List('j', 'k', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i')
   title("ROTATE")
-  println("Native -               " + ((rotate(3, rotateData) == rotateReturnData1 && (rotate(-2, rotateData) == rotateReturnData2))))
-  println("Scala out of the box - " + ((rotate2(3, rotateData) == rotateReturnData1) && (rotate2(-2, rotateData) == rotateReturnData2)))
+  native(rotate(3, rotateData) == rotateReturnData1 && rotate(-2, rotateData) == rotateReturnData2)
+  scala(rotate2(3, rotateData) == rotateReturnData1 && rotate2(-2, rotateData) == rotateReturnData2)
 
 
   def removeAt(at: Int, l: List[Char]): Option[(List[Char], Char)] = {
@@ -312,8 +314,8 @@ object Lists extends App {
   val removeAtData = List('a', 'b', 'c', 'd')
   val removeAtReturnData = (List('a', 'c', 'd'), 'b')
   title("REMOVE AT")
-  println("Native -               " + (removeAt(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
-  println("Scala out of the box - " + (removeAt2(1, removeAtData) == Some((List('a', 'c', 'd'),'b'))))
+  native(removeAt(1, removeAtData) == Some((List('a', 'c', 'd'),'b')))
+  scala(removeAt2(1, removeAtData) == Some((List('a', 'c', 'd'),'b')))
 
 
   def insertAt(c: Char, at: Int, list: List[Char]): List[Char] = {
@@ -337,6 +339,7 @@ object Lists extends App {
   val insertAtData = List('a', 'b', 'c', 'd')
   val insertAtReturnData = (List('a', 'c', 'd'), 'b')
   title("INSERT AT")
-  println("Native -               " + (insertAt('n', 1, insertAtData) == List('a', 'n', 'b', 'c', 'd')))
-  println("Scala out of the box - " + (insertAt2('n', 1, removeAtData) == List('a', 'n', 'b', 'c', 'd')))
+  native(insertAt('n', 1, insertAtData) == List('a', 'n', 'b', 'c', 'd'))
+  scala(insertAt2('n', 1, removeAtData) == List('a', 'n', 'b', 'c', 'd'))
+
 }
