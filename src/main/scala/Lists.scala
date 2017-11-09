@@ -1,3 +1,7 @@
+import Lists.removeAt
+
+import scala.collection.SortedSet
+
 object Lists extends App {
   // HELPERS
   def title(s: String) = println(s"\n$s\n")
@@ -356,4 +360,28 @@ object Lists extends App {
   native(range(4, 9) == rangeReturnData)
   println(range2(4, 9))
   scala(range2(4, 9) == rangeReturnData)
+
+  def randomSelect(i: Int, l: List[Char]): List[Char] = {
+    if(i == 0 || l == Nil) Nil
+    else {
+      val aa = removeAt(Math.round(Math.round(Math.random() * l.length)), l)
+      aa match {
+        case Some(x) => x._2 :: randomSelect(i - 1, x._1)
+        case None => randomSelect(i, l)
+      }
+    }
+  }
+
+  def randomSelect2(i: Int, l: List[Char]): List[Char] = {
+    var s = SortedSet[Int]()
+    while(s.size < i) {
+      s += Math.round(Math.round(Math.random() * (l.length - 1)))
+    }
+    s.map(l(_)).toList
+  }
+
+  val randomSelectData = List('a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j')
+  title("RANDOMSELECT")
+  println(randomSelect(4, randomSelectData))
+  println(randomSelect2(3, randomSelectData))
 }
