@@ -306,20 +306,20 @@ object Lists extends App {
       case _ :: tail if at == 0 => rec(at - 1, tail)
       case x :: tail => x :: rec(at - 1, tail)
     }
-    if(at >= 0 && at < l.length - 1) Some((rec(at, l), l(at)))
+    if(at >= 0 && at <= l.length) Some((rec(at, l), l(at)))
     else None
   }
 
   def removeAt2(at: Int, l: List[Char]): Option[(List[Char], Char)] = {
-    if(at >= 0 && at < l.length - 1) Some((l.take(at) ++ l.drop(at + 1), l(at)))
+    if(at >= 0 && at <= l.length) Some((l.take(at) ++ l.drop(at + 1), l(at)))
     else None
   }
 
   val removeAtData = List('a', 'b', 'c', 'd')
   val removeAtReturnData = (List('a', 'c', 'd'), 'b')
   title("REMOVE AT")
-  native(removeAt(1, removeAtData) == Some((List('a', 'c', 'd'),'b')))
-  scala(removeAt2(1, removeAtData) == Some((List('a', 'c', 'd'),'b')))
+  native(removeAt(3, removeAtData) == Some((List('a', 'b', 'c'),'d')))
+  scala(removeAt2(3, removeAtData) == Some((List('a', 'b', 'c'),'d')))
 
 
   def insertAt(c: Char, at: Int, list: List[Char]): List[Char] = {
@@ -364,7 +364,8 @@ object Lists extends App {
   def randomSelect(i: Int, l: List[Char]): List[Char] = {
     if(i == 0 || l == Nil) Nil
     else {
-      val aa = removeAt(Math.round(Math.round(Math.random() * l.length)), l)
+      val dd = Math.round(Math.round(Math.random() * (l.length - 1)))
+      val aa = removeAt(dd, l)
       aa match {
         case Some(x) => x._2 :: randomSelect(i - 1, x._1)
         case None => randomSelect(i, l)
