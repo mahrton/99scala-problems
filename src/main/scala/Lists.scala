@@ -300,8 +300,8 @@ object Lists extends App {
   scala(rotate2(3, rotateData) == rotateReturnData1 && rotate2(-2, rotateData) == rotateReturnData2)
 
 
-  def removeAt(at: Int, l: List[Char]): Option[(List[Char], Char)] = {
-    def rec(at: Int, list: List[Char]): List[Char] = list match {
+  def removeAt(at: Int, l: List[Any]): Option[(List[Any], Any)] = {
+    def rec(at: Int, list: List[Any]): List[Any] = list match {
       case Nil => Nil
       case _ :: tail if at == 0 => rec(at - 1, tail)
       case x :: tail => x :: rec(at - 1, tail)
@@ -356,24 +356,21 @@ object Lists extends App {
 
   val rangeReturnData = List(4, 5, 6, 7, 8, 9)
   title("RANGE")
-  println(range(4, 9))
   native(range(4, 9) == rangeReturnData)
-  println(range2(4, 9))
   scala(range2(4, 9) == rangeReturnData)
 
-  def randomSelect(i: Int, l: List[Char]): List[Char] = {
+  def randomSelect(i: Int, l: List[Any]): List[Any] = {
     if(i == 0 || l == Nil) Nil
     else {
       val dd = Math.round(Math.round(Math.random() * (l.length - 1)))
-      val aa = removeAt(dd, l)
-      aa match {
+      removeAt(dd, l) match {
         case Some(x) => x._2 :: randomSelect(i - 1, x._1)
         case None => randomSelect(i, l)
       }
     }
   }
 
-  def randomSelect2(i: Int, l: List[Char]): List[Char] = {
+  def randomSelect2(i: Int, l: List[Any]): List[Any] = {
     var s = SortedSet[Int]()
     while(s.size < i) {
       s += Math.round(Math.round(Math.random() * (l.length - 1)))
@@ -381,8 +378,20 @@ object Lists extends App {
     s.map(l(_)).toList
   }
 
-  val randomSelectData = List('a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j')
+  val randomSelectData = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j')
   title("RANDOMSELECT")
-  println(randomSelect(4, randomSelectData))
-  println(randomSelect2(3, randomSelectData))
+  val randomSelectReturn1 = randomSelect(4, randomSelectData)
+  native(randomSelectReturn1.forall(aa => randomSelectData.contains(aa)))
+  val randomSelectReturn2 = randomSelect2(4, randomSelectData)
+  scala(randomSelectReturn1.forall(aa => randomSelectData.contains(aa)))
+
+  def lotto(a: Int, b: Int): List[Any] = randomSelect(a, range(1, b))
+
+  def lotto2(a: Int, b: Int): List[Any] = randomSelect2(a, range2(1, b))
+
+  title("LOTTO")
+  val lottoResults1 = lotto(6, 49)
+  native(lottoResults1.length == 6 && lottoResults1.forall(aa => aa.asInstanceOf[Int] < 50))
+  val lottoResults2 = lotto(6, 49)
+  scala(lottoResults2.length == 6 && lottoResults2.forall(aa => aa.asInstanceOf[Int] < 50))
 }
