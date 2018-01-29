@@ -359,6 +359,7 @@ object Lists extends App {
   native(range(4, 9) == rangeReturnData)
   scala(range2(4, 9) == rangeReturnData)
 
+
   def randomSelect(i: Int, l: List[Any]): List[Any] = {
     if(i == 0 || l == Nil) Nil
     else {
@@ -385,6 +386,7 @@ object Lists extends App {
   val randomSelectReturn2 = randomSelect2(4, randomSelectData)
   scala(randomSelectReturn1.forall(aa => randomSelectData.contains(aa)))
 
+
   def lotto(a: Int, b: Int): List[Any] = randomSelect(a, range(1, b))
 
   def lotto2(a: Int, b: Int): List[Any] = randomSelect2(a, range2(1, b))
@@ -394,4 +396,14 @@ object Lists extends App {
   native(lottoResults1.length == 6 && lottoResults1.forall(aa => aa.asInstanceOf[Int] < 50))
   val lottoResults2 = lotto(6, 49)
   scala(lottoResults2.length == 6 && lottoResults2.forall(aa => aa.asInstanceOf[Int] < 50))
+
+
+  def randomPermute(l: List[Any]): List[Any] = randomSelect(l.length, l)
+
+  def randomPermute2(l: List[Any]): List[Any] = randomSelect2(l.length, l)
+
+  val randomPermuteData = List('a', 'b', 'c', 'd', 'e', 'f')
+  title("RANDOMPERMUTE")
+  native(randomPermute(randomPermuteData).asInstanceOf[List[Char]].sorted == randomPermuteData)
+  scala(randomPermute2(randomPermuteData).asInstanceOf[List[Char]].sorted == randomPermuteData)
 }
